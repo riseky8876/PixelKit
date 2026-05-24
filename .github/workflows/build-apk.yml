@@ -53,19 +53,22 @@ jobs:
           JAVA_HOME: ${{ env.JAVA_HOME }}
           NODE_PATH: ${{ github.workspace }}/node_modules
 
-      # Cari APK di mana pun letaknya
-      - name: Find APK
+      - name: Find and copy APK
         run: |
-          echo "=== Mencari APK ==="
+          echo "=== Semua APK yang ditemukan ==="
           find . -name "*.apk" 2>/dev/null
-          echo "=== Build outputs ==="
-          find android/app/build/outputs -type f 2>/dev/null || echo "folder outputs tidak ada"
+          echo "=== Isi android/app/build ==="
+          find android/app/build -type f 2>/dev/null || echo "Folder build tidak ada"
+          echo "=== Copy APK ke root ==="
+          mkdir -p apk-output
+          find . -name "*.apk" -exec cp {} apk-output/ \;
+          ls -lh apk-output/
 
-      - name: Upload Debug APK
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: PixelKit-debug-apk
-          path: android/app/build/outputs/apk/debug/*.apk
+          path: apk-output/
           if-no-files-found: error
           retention-days: 30
 
