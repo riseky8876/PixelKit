@@ -2,7 +2,7 @@ apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
 
 react {
-    // autolinking is handled automatically
+    // autolinking handled automatically
 }
 
 android {
@@ -44,7 +44,7 @@ android {
             signingConfig project.hasProperty('MYAPP_UPLOAD_STORE_FILE')
                 ? signingConfigs.release
                 : signingConfigs.debug
-            minifyEnabled enableProguardInReleaseBuilds
+            minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
